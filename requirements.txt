@@ -1,0 +1,5 @@
+pandas
+h5py
+pillow
+bcolz
+keras
