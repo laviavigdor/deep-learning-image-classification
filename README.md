@@ -39,3 +39,13 @@ To predict an image, run
     ./predict.sh image-url-or-file-path   2> /dev/null
 
 
+
+## References
+
+- [Deep Residual Learning for Image Recognition](https://arxiv.org/abs/1512.03385)
+- [Keras](https://keras.io/getting-started/faq/#how-should-i-cite-keras)
+
+## License
+
+- All code in this repository is under the MIT license as specified by the LICENSE file.
+- The pretrained ResNet50 imagenet weights are ported from the ones [released by Kaiming He](https://github.com/KaimingHe/deep-residual-networks) under the [MIT license](https://github.com/KaimingHe/deep-residual-networks/blob/master/LICENSE).
