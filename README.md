@@ -1,37 +1,41 @@
-## Welcome to GitHub Pages
+## Welcome to the Deep Learning toolbelt
 
-You can use the [editor on GitHub](https://github.com/laviavigdor/deep-learning-toolbelt/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+Here be dragons, and image classifications
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+### Tested on
 
-### Markdown
+- [Kaggle's Dogs vs. Cats Redux: Kernels Edition](https://www.kaggle.com/c/dogs-vs-cats-redux-kernels-edition)
+- [Kaggle's State Farm Distracted Driver Detection](https://www.kaggle.com/c/state-farm-distracted-driver-detection)
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+### Main features
+1. Use ResNet-50 pretrained on imagenet with a new head layer
+2. Cache of heavy computation to disk for fast re-runs
+3. Confusion matrix generation
+4. Kaggle sample file generation
 
-```markdown
-Syntax highlighted code block
+### Prerequisits:
 
-# Header 1
-## Header 2
-### Header 3
+Create directories, and populate them with your data:
+- train
+	- c0
+    - c1
+    ...
+- valid
+	- c0
+    - c1
+    ...
+- test
+	- unknown
+- results
 
-- Bulleted
-- List
+### Usage
 
-1. Numbered
-2. List
+To train, run 
 
-**Bold** and _Italic_ and `Code` text
+    python train.py
+    
+To predict an image, run 
 
-[Link](url) and ![Image](src)
-```
+    ./predict.sh image-url-or-file-path   2> /dev/null
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
 
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/laviavigdor/deep-learning-toolbelt/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
