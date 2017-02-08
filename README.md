@@ -44,6 +44,8 @@ To predict an image, run
 
 - [Deep Residual Learning for Image Recognition](https://arxiv.org/abs/1512.03385)
 - [Keras](https://keras.io/getting-started/faq/#how-should-i-cite-keras)
+- [Practical Deep Learning for Coders course](http://www.fast.ai/)
+- [Amazon EC2 P2 Instances](https://aws.amazon.com/ec2/instance-types/p2/) 
 
 ## License
 

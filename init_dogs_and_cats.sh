@@ -3,8 +3,8 @@
 export LC_ALL=C
 
 sudo apt-get install unzip
-#unzip train.zip
-#unzip test.zip
+unzip train.zip
+unzip test.zip
 
 mkdir results
 mkdir valid
