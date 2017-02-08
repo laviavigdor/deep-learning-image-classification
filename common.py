@@ -11,8 +11,8 @@ from sklearn.metrics import confusion_matrix
 import bcolz
 import numpy as np
 import pandas as pd
-
-
+from tqdm import trange
+import random
 
 def setup():
     #path = 'sample/'
@@ -20,7 +20,7 @@ def setup():
 
     os.environ['TF_CPP_MIN_LOG_LEVEL'] = '0'
     os.environ['TF_CPP_MIN_VLOG_LEVEL'] = '0'
-    os.environ['CUDA_VISIBLE_DEVICES'] = '2' #,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15
+    os.environ['CUDA_VISIBLE_DEVICES'] = str(random.randint(0, 15))
 
     training_path = path + 'train/'
     validation_path = path + 'valid/'
@@ -85,7 +85,9 @@ def get_new_head_model(input_shape, output_shape):
     return model
 
 def evaluate(valid_head_expected_out, valid_head_predicted_out):
-    cm = confusion_matrix(valid_head_expected_out[:,0], np.round(1 - valid_head_predicted_out[:,0]))
+    expected_categories = [np.argmax(x) for x in valid_head_expected_out]
+    predicted_categories = [np.argmax(x) for x in valid_head_predicted_out]
+    cm = confusion_matrix(expected_categories, predicted_categories)
     print(cm)
 
 def save_array(fname, arr):
@@ -94,6 +96,31 @@ def save_array(fname, arr):
 
 def load_array(fname):
     return bcolz.open(fname)[0]
+
+
+
+def create_submission_file_for_state_farm(test_head_predicted_out, test_filenames, sample_submission_file, output_submission_file):
+    print('*** Create submission file')
+    test_ids = [x.split(os.path.sep)[1] for x in test_filenames]
+    #test_ids = [int(x.split(os.path.sep)[1].split(".")[0]) for x in filenames]
+
+    number_of_rows = len(test_head_predicted_out)
+    number_of_columns = len(test_head_predicted_out[0])
+
+    submission = pd.read_csv(sample_submission_file)
+    image_label = submission.loc[1].keys()[0]
+    column_labels = submission.loc[1].keys()[1:]
+    for row_id in trange(number_of_rows):
+        image_id = test_ids[row_id]
+        #print(str(row_id) + " / " + str(number_of_rows))
+        for column_id in range(0, number_of_columns):
+            column_label = column_labels[column_id]
+            submission.loc[submission[image_label] == image_id, column_label] = test_head_predicted_out[row_id][column_id]
+
+    submission.to_csv(output_submission_file, index=False)
+    return submission
+
+
 
 def create_submission_file(test_head_predicted_out, filenames, sample_submission_file, output_submission_file):
     print('*** Create submission file')

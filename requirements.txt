@@ -3,3 +3,4 @@ h5py
 pillow
 bcolz
 keras
+tqdm
