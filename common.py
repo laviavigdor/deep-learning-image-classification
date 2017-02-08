@@ -97,30 +97,20 @@ def save_array(fname, arr):
 def load_array(fname):
     return bcolz.open(fname)[0]
 
-
-
 def create_submission_file_for_state_farm(test_head_predicted_out, test_filenames, sample_submission_file, output_submission_file):
-    print('*** Create submission file')
     test_ids = [x.split(os.path.sep)[1] for x in test_filenames]
-    #test_ids = [int(x.split(os.path.sep)[1].split(".")[0]) for x in filenames]
-
     number_of_rows = len(test_head_predicted_out)
-    number_of_columns = len(test_head_predicted_out[0])
-
     submission = pd.read_csv(sample_submission_file)
-    image_label = submission.loc[1].keys()[0]
-    column_labels = submission.loc[1].keys()[1:]
-    for row_id in trange(number_of_rows):
-        image_id = test_ids[row_id]
-        #print(str(row_id) + " / " + str(number_of_rows))
-        for column_id in range(0, number_of_columns):
-            column_label = column_labels[column_id]
-            submission.loc[submission[image_label] == image_id, column_label] = test_head_predicted_out[row_id][column_id]
 
-    submission.to_csv(output_submission_file, index=False)
-    return submission
+    with open(output_submission_file, 'w') as csvfile:
+        header = ','.join(submission.loc[1].keys()) + '\n'
+        csvfile.write(header)
+        for row_id in trange(number_of_rows):
+            row_str = test_ids[row_id] + ',' + ','.join(map(str, map(clamp, test_head_predicted_out[row_id]))) + '\n'
+            csvfile.write(row_str)
 
-
+def clamp(n, smallest=0.04, largest=0.96):
+    return max(smallest, min(n, largest))
 
 def create_submission_file(test_head_predicted_out, filenames, sample_submission_file, output_submission_file):
     print('*** Create submission file')
